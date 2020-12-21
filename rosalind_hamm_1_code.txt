@@ -1,0 +1,9 @@
+s = input()
+t = input()
+hemm = 0
+s = list(s)
+t = list(t)
+for i in range(len(s)):
+	if s[i] != t[i]:
+		hemm += 1
+print(hemm)
