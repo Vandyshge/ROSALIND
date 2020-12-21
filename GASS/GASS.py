@@ -31,54 +31,38 @@ def prove(s1, s2):
     # print(f'this is {s}')
     return s
 
-def cycle(data):
-    res = []
-    for head, string in data:
-        for head_i, string_i in data:
-            if head != head_i:
-                s = prove(string, string_i)
-                if s != '':
-                    res.append(s)
-    if len(data)
-
 def main(file_name):
     data = read_fasta(file_name)
     # prove('ATTAGATTAG ', 'AGACCTGCCG')
     res = []
+    dstr = {string: [] for head, string in data}
     for head, string in data:
         for head_i, string_i in data:
-            if head != head_i:
-                s = prove(string, string_i)
-                if s != '':
-                    res.append(s)
-
-    # dic = {}
-    # al = ['A', 'C', 'G', 'T']
-    # n = len(data[0][1])
-    # for let in al:
-    #     dic[let] = [0 for _ in range(n)]
-    # for i in range(n):
-    #     for j in range(len(data)):
-    #         dic[data[j][1][i]][i] += 1
-    # string = ''
-    # for i in range(n):
-    #     s_i = ''
-    #     n_max = 0
-    #     for let in al:
-    #         if dic[let][i] >= n_max:
-    #             s_i = let
-    #             n_max = dic[let][i]
-    #     string += s_i
-
-    # print(string)
-    # for let in al:
-    #     print(f'{let}: {" ".join(map(str, [x for x in dic[let]]))}')
-    #     # print(" ".join(map(str, [0, 1, 2])))
-
-    # out = open('CP_out.txt', 'w')
-    # out.write(f'{string}\n')
-    # for let in al:
-    #     out.write(f'{let}: {" ".join(map(str, [x for x in dic[let]]))}\n')
+            if head != head_i and prove(string, string_i) != '':
+                dstr[string].append(string_i)
+    print(dstr)
+    for head, string in data:
+        s = '' + string
+        use = set()
+        use.add(string)
+        for i in range(len(data)):
+            if len(dstr[string]) != 0:
+                string_i = dstr[string][0]
+                s = prove(s, string_i)
+                use.add(string_i)
+                string = string_i
+                print(s)
+            else:
+                break
+        if len(use) == len(data):
+            res.append(s)
+    print(res)
+    res = sorted(res, key=lambda x: len(x))[-1]
+    print(res)
+    out = open('GASS_out.txt', 'w')
+    out.write(f'{res}')
+    out.close()
 
 
-main('GASS.txt')
+main('rosalind_long.txt')
+# print(sorted(['res', 'qwer', 'qw', 'ertyyu'], key=lambda x: len(x)))

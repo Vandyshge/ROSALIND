@@ -47,6 +47,6 @@ def main(file_name):
     out.write(f'{string}\n')
     for let in al:
         out.write(f'{let}: {" ".join(map(str, [x for x in dic[let]]))}\n')
-
+    out.close()
 
 main('rosalind_cons.txt')
